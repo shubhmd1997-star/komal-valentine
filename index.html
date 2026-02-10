@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Gujju ❤️</title>
+
+<style>
+body{
+    margin:0;
+    font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(180deg,#000,#111);
+    color:white;
+    text-align:center;
+    overflow-x:hidden;
+}
+
+h1{
+    font-weight:600;
+}
+
+.container{
+    padding-top:60px;
+}
+
+button{
+    padding:15px 28px;
+    font-size:18px;
+    border-radius:16px;
+    border:none;
+    margin:10px;
+}
+
+.yesBtn{
+    background:#ff2d55;
+    color:white;
+}
+
+.noBtn{
+    background:#333;
+    color:white;
+}
+
+.footer{
+    position:fixed;
+    bottom:20px;
+    width:100%;
+    font-size:18px;
+    opacity:.8;
+}
+
+.hidden{
+    display:none;
+}
+
+.surpriseBox{
+    position:fixed;
+    top:20%;
+    right:20px;
+    width:320px;
+    background:#111;
+    padding:20px;
+    border-radius:20px;
+    border:1px solid #333;
+}
+
+.vacationOption{
+    padding:12px;
+    border:1px solid #444;
+    margin:6px 0;
+    border-radius:12px;
+}
+
+.selected{
+    border:2px solid #ff2d55;
+    box-shadow:0 0 15px #ff2d55;
+}
+
+.gifRow{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainPage">
+<h1>Komal 🍄, will you be my Valentine?</h1>
+
+<button class="yesBtn" onclick="yesClicked()">YES</button>
+<button class="noBtn" onclick="noClicked()">NO</button>
+</div>
+
+<div class="footer" id="footerText">
+No seems a bit shy 😈
+</div>
+
+<div id="yesPage" class="hidden">
+
+<h1>YAY ❤️<br>YOU HAVE MADE ME THE HAPPIEST</h1>
+
+<div class="gifRow">
+<img width="250" src="https://www.gif-vif.com/trending/celebrate-yay.gif">
+<img width="250" src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif">
+<img width="250" src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif">
+</div>
+
+<br><br>
+
+<button onclick="toggleSurprise()">Surprise</button>
+<button onclick="toggleMessage()">Personalized Message</button>
+
+</div>
+
+<div id="surpriseBox" class="surpriseBox hidden">
+
+<h3>Select Dream Vacation</h3>
+
+<div class="vacationOption" onclick="selectVacation(this,'Mexico')">Mexico</div>
+<div class="vacationOption" onclick="selectVacation(this,'Thailand')">Thailand</div>
+<div class="vacationOption" onclick="selectVacation(this,'Switzerland')">Switzerland</div>
+<div class="vacationOption" onclick="selectVacation(this,'Cuba')">Cuba</div>
+
+<hr>
+
+<p>Valentine Pamper Gift:</p>
+<p>(Spa Certificate Reserved 💕)</p>
+
+<hr>
+
+<p>
+Date Night Planned:<br><br>
+THURSDAY: Feb 28, 2026<br>
+Time: TBD<br>
+Where: Surprise<br>
+With: YO MANS ❤️
+</p>
+
+</div>
+
+<div id="messageBox" class="surpriseBox hidden" style="left:20px; right:auto;">
+<p>
+Since the day we started talking,<br>
+there hasn't been a single night<br>
+I didn't fall asleep thinking of you ❤️
+</p>
+</div>
+
+<script>
+let noCount=0;
+let audioUnlocked=false;
+
+function vibrate(){
+ if(navigator.vibrate) navigator.vibrate(40);
+}
+
+function unlockAudio(){
+ if(audioUnlocked) return;
+ let a=new Audio();
+ a.play().catch(()=>{});
+ audioUnlocked=true;
+}
+
+function yesClicked(){
+ vibrate();
+ unlockAudio();
+
+ document.getElementById("mainPage").classList.add("hidden");
+ document.getElementById("yesPage").classList.remove("hidden");
+
+ document.getElementById("footerText").innerText="You have made me the Happiest";
+
+ let music=new Audio("https://cdn.pixabay.com/download/audio/2023/01/17/audio_7e2b5c5e6e.mp3");
+ music.loop=true;
+ music.play().catch(()=>{});
+}
+
+function noClicked(){
+ vibrate();
+ noCount++;
+
+ let msg="";
+ if(noCount==1) msg="Invalid choice ❌ Please try again Bubs. Don't blush.";
+ else if(noCount==2) msg="Are you sure? Please try again Bubs. Keep blushing.";
+ else if(noCount==3) msg="Wait!!!!! Are you sure? Please try again Bubs. MORE BLUSHING.";
+ else msg="Are you sure SUREE? BLUSH BLUSH BLUSH NOW PRESS YESSS na";
+
+ alert(msg);
+}
+
+function toggleSurprise(){
+ vibrate();
+ document.getElementById("surpriseBox").classList.toggle("hidden");
+}
+
+function toggleMessage(){
+ vibrate();
+ document.getElementById("messageBox").classList.toggle("hidden");
+}
+
+function selectVacation(el,val){
+ vibrate();
+ localStorage.setItem("vacationChoice",val);
+
+ document.querySelectorAll(".vacationOption").forEach(x=>x.classList.remove("selected"));
+ el.classList.add("selected");
+}
+
+window.onload=function(){
+ let saved=localStorage.getItem("vacationChoice");
+ if(saved){
+ document.querySelectorAll(".vacationOption").forEach(el=>{
+ if(el.innerText==saved) el.classList.add("selected");
+ });
+ }
+}
+</script>
+
+</body>
+</html>
