@@ -3,273 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Komal 🍄</title>
+<title>Komal 🍄 - Will you be my Bestest Friend Forever?</title>
 
 <style>
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont;
-background:black;
-color:white;
-text-align:center;
-overflow-x:hidden;
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial, sans-serif;
+    background: linear-gradient(180deg, #0b0f1a, #1a1f35);
+    overflow-x: hidden;
+    color: white;
+    text-align: center;
 }
 
-.page{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-padding:20px;
+/* Romantic realistic hearts */
+.heart {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle at 30% 30%, #ff9bb3, #ff2e63);
+    transform: rotate(45deg);
+    animation: floatUp linear forwards;
+    box-shadow: 0 0 10px rgba(255, 80, 120, 0.8);
 }
 
-button{
-padding:14px 28px;
-margin:10px;
-border-radius:30px;
-border:none;
-font-size:18px;
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: inherit;
+    border-radius: 50%;
 }
 
-.yesBtn{
-background:#ff2d55;
-color:white;
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: -9px; top: 0; }
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(45deg) scale(0.9);
+        opacity: 0;
+    }
+    20% { opacity: 1; }
+    100% {
+        transform: translateY(-120vh) rotate(45deg) scale(1.2);
+        opacity: 0;
+    }
 }
 
-.noBtn{
-background:#333;
-color:white;
+.container {
+    padding-top: 80px;
 }
 
-.hidden{ display:none; }
-
-.headerBig{
-font-size:42px;
-font-weight:700;
+h1 {
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-.subBig{
-font-size:32px;
-font-weight:600;
+button {
+    margin: 15px;
+    padding: 14px 28px;
+    border-radius: 18px;
+    border: none;
+    font-size: 16px;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
 }
 
-.gifRow{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-justify-content:center;
-margin-top:20px;
+button:active {
+    transform: scale(0.95);
 }
-
-.gifRow img{
-width:45vw;
-max-width:260px;
-border-radius:18px;
-}
-
-.sidePanel{
-position:fixed;
-top:0;
-right:-100%;
-width:85%;
-max-width:380px;
-height:100%;
-background:#111;
-padding:25px;
-transition:0.4s;
-overflow:auto;
-z-index:20;
-}
-
-.sidePanel.show{
-right:0;
-}
-
-.vacationGrid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:15px;
-}
-
-.vacationCard{
-padding:18px;
-border-radius:16px;
-background:#222;
-cursor:pointer;
-border:2px solid transparent;
-}
-
-.vacationCard.selected{
-border:2px solid #ff2d55;
-box-shadow:0 0 20px #ff2d55;
-}
-
 </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/audio/2023/03/20/audio_5a1d.mp3">
-</audio>
+<!-- YouTube Music Autoplay -->
+<iframe id="musicFrame"
+width="0"
+height="0"
+src="https://www.youtube.com/embed/9T-Zbxg9X_4?autoplay=1&loop=1&playlist=9T-Zbxg9X_4"
+allow="autoplay">
+</iframe>
 
-<div class="page" id="page1">
+<div class="container">
+<h1>Komal 🍄<br>Will you be my Bestest Friend Forever?</h1>
 
-<h1>Komal 🍄</h1>
+<button onclick="yesClicked()">YES 💖</button>
+<button onclick="noClicked()">NO 🙈</button>
 
-<div id="noMsg"></div>
-
-<div>
-<button class="yesBtn" onclick="pressYes()">YES</button>
-<button class="noBtn" onclick="pressNo()">NO</button>
-</div>
-
-</div>
-
-<div class="page hidden" id="yesPage">
-
-<div class="headerBig">YAY ❤️</div>
-<div class="subBig">YOU HAVE MADE ME THE HAPPIEST</div>
-
-<div class="gifRow">
-<img src="https://www.gif-vif.com/trending/celebrate-yay.gif">
-<img src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif">
-</div>
-
-<div style="margin-top:20px;">
-<button onclick="openPanel('vacationPanel')">Surprise 1</button>
-<button onclick="openPanel('pamperPanel')">Surprise 2</button>
-<button onclick="openPanel('datePanel')">Surprise 3</button>
-<button onclick="openPanel('messagePanel')">Personal Message</button>
-</div>
-
-</div>
-
-<div class="sidePanel" id="vacationPanel">
-<h2>Select Vacation</h2>
-
-<div class="vacationGrid">
-<div class="vacationCard" onclick="selectVacation(this,'Mexico')">Mexico</div>
-<div class="vacationCard" onclick="selectVacation(this,'Thailand')">Thailand</div>
-<div class="vacationCard" onclick="selectVacation(this,'Switzerland')">Switzerland</div>
-<div class="vacationCard" onclick="selectVacation(this,'Cuba')">Cuba</div>
-</div>
-
-<br>
-<button onclick="closePanel('vacationPanel')">Close</button>
-</div>
-
-<div class="sidePanel" id="pamperPanel">
-<h2>Pamper Surprise</h2>
-<p>💌 Spa Certificate goes here</p>
-<button onclick="closePanel('pamperPanel')">Close</button>
-</div>
-
-<div class="sidePanel" id="datePanel">
-<h2>Date Night</h2>
-<p>
-THURSDAY: February 28th, 2026<br><br>
-Time: TBD<br>
-Where: (It's a surprise)<br>
-With: YO MANS (future ...)<br><br>
-Attire: feeling like a dress would be good, maybe formal but not too formal...
-</p>
-<button onclick="closePanel('datePanel')">Close</button>
-</div>
-
-<div class="sidePanel" id="messagePanel">
-<h2>Message</h2>
-<p>
-Since the day we started talking, there hasn't been a single night  
-I didn't fall asleep thinking of you.
-</p>
-<button onclick="closePanel('messagePanel')">Close</button>
+<div id="response" style="margin-top:40px;font-size:20px;"></div>
 </div>
 
 <script>
+/* Create floating realistic hearts */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(heart);
 
-let noCount = 0;
-
-function vibrate(){
-if(navigator.vibrate){
-navigator.vibrate(30);
-}
-}
-
-function pressNo(){
-
-vibrate();
-
-noCount++;
-
-let msg = "";
-
-if(noCount==1){
-msg="❌ Invalid choice. Please try again Bubs.";
-}
-else if(noCount==2){
-msg="🥺 Are you sure? Please try again Bubs.";
-}
-else if(noCount==3){
-msg="😳 Wait!!!!! Are you sure? Please try again Bubs.";
-}
-else{
-msg="🔥 Are you sure SUREE?? Press YESSS na.";
+    setTimeout(() => heart.remove(), 8000);
 }
 
-document.getElementById("noMsg").innerHTML = msg;
+setInterval(createHeart, 300);
 
+/* Button logic */
+function yesClicked() {
+    document.getElementById("response").innerHTML = "YAY 💗 You made me the happiest!";
+    navigator.vibrate && navigator.vibrate(40);
 }
 
-function pressYes(){
-
-vibrate();
-
-document.getElementById("noMsg").innerHTML="";
-document.getElementById("page1").classList.add("hidden");
-document.getElementById("yesPage").classList.remove("hidden");
-
-let music = document.getElementById("music");
-music.currentTime=0;
-music.play().catch(()=>{});
-
+function noClicked() {
+    document.getElementById("response").innerHTML = "I will keep trying 😌💞";
+    navigator.vibrate && navigator.vibrate(20);
 }
 
-function openPanel(id){
-vibrate();
-document.getElementById(id).classList.add("show");
-}
-
-function closePanel(id){
-document.getElementById(id).classList.remove("show");
-}
-
-function selectVacation(el,name){
-
-vibrate();
-
-document.querySelectorAll(".vacationCard").forEach(c=>{
-c.classList.remove("selected");
-});
-
-el.classList.add("selected");
-
-localStorage.setItem("vacationChoice",name);
-
-}
-
-window.onload = ()=>{
-let saved = localStorage.getItem("vacationChoice");
-if(saved){
-document.querySelectorAll(".vacationCard").forEach(c=>{
-if(c.innerText==saved){
-c.classList.add("selected");
-}
-});
-}
-}
+/* Try forcing autoplay again on first touch (iOS fix) */
+document.body.addEventListener("touchstart", () => {
+    let frame = document.getElementById("musicFrame");
+    frame.src = frame.src;
+}, { once: true });
 
 </script>
 
