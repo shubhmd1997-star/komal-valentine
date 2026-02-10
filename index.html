@@ -3,220 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Gujju ❤️</title>
+<title>For Komal 🍄</title>
 
 <style>
 body{
-    margin:0;
-    font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(180deg,#000,#111);
-    color:white;
-    text-align:center;
-    overflow-x:hidden;
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont;
+background:black;
+color:white;
+text-align:center;
+overflow-x:hidden;
 }
 
-h1{
-    font-weight:600;
-}
-
-.container{
-    padding-top:60px;
+.page{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
 }
 
 button{
-    padding:15px 28px;
-    font-size:18px;
-    border-radius:16px;
-    border:none;
-    margin:10px;
+padding:14px 28px;
+margin:10px;
+border-radius:30px;
+border:none;
+font-size:18px;
 }
 
 .yesBtn{
-    background:#ff2d55;
-    color:white;
+background:#ff2d55;
+color:white;
 }
 
 .noBtn{
-    background:#333;
-    color:white;
+background:#333;
+color:white;
 }
 
-.footer{
-    position:fixed;
-    bottom:20px;
-    width:100%;
-    font-size:18px;
-    opacity:.8;
+.hidden{ display:none; }
+
+.headerBig{
+font-size:42px;
+font-weight:700;
 }
 
-.hidden{
-    display:none;
-}
-
-.surpriseBox{
-    position:fixed;
-    top:20%;
-    right:20px;
-    width:320px;
-    background:#111;
-    padding:20px;
-    border-radius:20px;
-    border:1px solid #333;
-}
-
-.vacationOption{
-    padding:12px;
-    border:1px solid #444;
-    margin:6px 0;
-    border-radius:12px;
-}
-
-.selected{
-    border:2px solid #ff2d55;
-    box-shadow:0 0 15px #ff2d55;
+.subBig{
+font-size:32px;
+font-weight:600;
 }
 
 .gifRow{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+margin-top:20px;
 }
+
+.gifRow img{
+width:45vw;
+max-width:260px;
+border-radius:18px;
+}
+
+.sidePanel{
+position:fixed;
+top:0;
+right:-100%;
+width:85%;
+max-width:380px;
+height:100%;
+background:#111;
+padding:25px;
+transition:0.4s;
+overflow:auto;
+z-index:20;
+}
+
+.sidePanel.show{
+right:0;
+}
+
+.vacationGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:15px;
+}
+
+.vacationCard{
+padding:18px;
+border-radius:16px;
+background:#222;
+cursor:pointer;
+border:2px solid transparent;
+}
+
+.vacationCard.selected{
+border:2px solid #ff2d55;
+box-shadow:0 0 20px #ff2d55;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container" id="mainPage">
-<h1>Komal 🍄, will you be my Valentine?</h1>
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/audio/2023/03/20/audio_5a1d.mp3">
+</audio>
 
-<button class="yesBtn" onclick="yesClicked()">YES</button>
-<button class="noBtn" onclick="noClicked()">NO</button>
+<div class="page" id="page1">
+
+<h1>Komal 🍄</h1>
+
+<div id="noMsg"></div>
+
+<div>
+<button class="yesBtn" onclick="pressYes()">YES</button>
+<button class="noBtn" onclick="pressNo()">NO</button>
 </div>
 
-<div class="footer" id="footerText">
-No seems a bit shy 😈
 </div>
 
-<div id="yesPage" class="hidden">
+<div class="page hidden" id="yesPage">
 
-<h1>YAY ❤️<br>YOU HAVE MADE ME THE HAPPIEST</h1>
+<div class="headerBig">YAY ❤️</div>
+<div class="subBig">YOU HAVE MADE ME THE HAPPIEST</div>
 
 <div class="gifRow">
-<img width="250" src="https://www.gif-vif.com/trending/celebrate-yay.gif">
-<img width="250" src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif">
-<img width="250" src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif">
+<img src="https://www.gif-vif.com/trending/celebrate-yay.gif">
+<img src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif">
 </div>
 
-<br><br>
-
-<button onclick="toggleSurprise()">Surprise</button>
-<button onclick="toggleMessage()">Personalized Message</button>
+<div style="margin-top:20px;">
+<button onclick="openPanel('vacationPanel')">Surprise 1</button>
+<button onclick="openPanel('pamperPanel')">Surprise 2</button>
+<button onclick="openPanel('datePanel')">Surprise 3</button>
+<button onclick="openPanel('messagePanel')">Personal Message</button>
+</div>
 
 </div>
 
-<div id="surpriseBox" class="surpriseBox hidden">
+<div class="sidePanel" id="vacationPanel">
+<h2>Select Vacation</h2>
 
-<h3>Select Dream Vacation</h3>
+<div class="vacationGrid">
+<div class="vacationCard" onclick="selectVacation(this,'Mexico')">Mexico</div>
+<div class="vacationCard" onclick="selectVacation(this,'Thailand')">Thailand</div>
+<div class="vacationCard" onclick="selectVacation(this,'Switzerland')">Switzerland</div>
+<div class="vacationCard" onclick="selectVacation(this,'Cuba')">Cuba</div>
+</div>
 
-<div class="vacationOption" onclick="selectVacation(this,'Mexico')">Mexico</div>
-<div class="vacationOption" onclick="selectVacation(this,'Thailand')">Thailand</div>
-<div class="vacationOption" onclick="selectVacation(this,'Switzerland')">Switzerland</div>
-<div class="vacationOption" onclick="selectVacation(this,'Cuba')">Cuba</div>
+<br>
+<button onclick="closePanel('vacationPanel')">Close</button>
+</div>
 
-<hr>
+<div class="sidePanel" id="pamperPanel">
+<h2>Pamper Surprise</h2>
+<p>💌 Spa Certificate goes here</p>
+<button onclick="closePanel('pamperPanel')">Close</button>
+</div>
 
-<p>Valentine Pamper Gift:</p>
-<p>(Spa Certificate Reserved 💕)</p>
-
-<hr>
-
+<div class="sidePanel" id="datePanel">
+<h2>Date Night</h2>
 <p>
-Date Night Planned:<br><br>
-THURSDAY: Feb 28, 2026<br>
+THURSDAY: February 28th, 2026<br><br>
 Time: TBD<br>
-Where: Surprise<br>
-With: YO MANS ❤️
+Where: (It's a surprise)<br>
+With: YO MANS (future ...)<br><br>
+Attire: feeling like a dress would be good, maybe formal but not too formal...
 </p>
-
+<button onclick="closePanel('datePanel')">Close</button>
 </div>
 
-<div id="messageBox" class="surpriseBox hidden" style="left:20px; right:auto;">
+<div class="sidePanel" id="messagePanel">
+<h2>Message</h2>
 <p>
-Since the day we started talking,<br>
-there hasn't been a single night<br>
-I didn't fall asleep thinking of you ❤️
+Since the day we started talking, there hasn't been a single night  
+I didn't fall asleep thinking of you.
 </p>
+<button onclick="closePanel('messagePanel')">Close</button>
 </div>
 
 <script>
-let noCount=0;
-let audioUnlocked=false;
+
+let noCount = 0;
 
 function vibrate(){
- if(navigator.vibrate) navigator.vibrate(40);
+if(navigator.vibrate){
+navigator.vibrate(30);
+}
 }
 
-function unlockAudio(){
- if(audioUnlocked) return;
- let a=new Audio();
- a.play().catch(()=>{});
- audioUnlocked=true;
+function pressNo(){
+
+vibrate();
+
+noCount++;
+
+let msg = "";
+
+if(noCount==1){
+msg="❌ Invalid choice. Please try again Bubs.";
+}
+else if(noCount==2){
+msg="🥺 Are you sure? Please try again Bubs.";
+}
+else if(noCount==3){
+msg="😳 Wait!!!!! Are you sure? Please try again Bubs.";
+}
+else{
+msg="🔥 Are you sure SUREE?? Press YESSS na.";
 }
 
-function yesClicked(){
- vibrate();
- unlockAudio();
+document.getElementById("noMsg").innerHTML = msg;
 
- document.getElementById("mainPage").classList.add("hidden");
- document.getElementById("yesPage").classList.remove("hidden");
-
- document.getElementById("footerText").innerText="You have made me the Happiest";
-
- let music=new Audio("https://cdn.pixabay.com/download/audio/2023/01/17/audio_7e2b5c5e6e.mp3");
- music.loop=true;
- music.play().catch(()=>{});
 }
 
-function noClicked(){
- vibrate();
- noCount++;
+function pressYes(){
 
- let msg="";
- if(noCount==1) msg="Invalid choice ❌ Please try again Bubs. Don't blush.";
- else if(noCount==2) msg="Are you sure? Please try again Bubs. Keep blushing.";
- else if(noCount==3) msg="Wait!!!!! Are you sure? Please try again Bubs. MORE BLUSHING.";
- else msg="Are you sure SUREE? BLUSH BLUSH BLUSH NOW PRESS YESSS na";
+vibrate();
 
- alert(msg);
+document.getElementById("noMsg").innerHTML="";
+document.getElementById("page1").classList.add("hidden");
+document.getElementById("yesPage").classList.remove("hidden");
+
+let music = document.getElementById("music");
+music.currentTime=0;
+music.play().catch(()=>{});
+
 }
 
-function toggleSurprise(){
- vibrate();
- document.getElementById("surpriseBox").classList.toggle("hidden");
+function openPanel(id){
+vibrate();
+document.getElementById(id).classList.add("show");
 }
 
-function toggleMessage(){
- vibrate();
- document.getElementById("messageBox").classList.toggle("hidden");
+function closePanel(id){
+document.getElementById(id).classList.remove("show");
 }
 
-function selectVacation(el,val){
- vibrate();
- localStorage.setItem("vacationChoice",val);
+function selectVacation(el,name){
 
- document.querySelectorAll(".vacationOption").forEach(x=>x.classList.remove("selected"));
- el.classList.add("selected");
+vibrate();
+
+document.querySelectorAll(".vacationCard").forEach(c=>{
+c.classList.remove("selected");
+});
+
+el.classList.add("selected");
+
+localStorage.setItem("vacationChoice",name);
+
 }
 
-window.onload=function(){
- let saved=localStorage.getItem("vacationChoice");
- if(saved){
- document.querySelectorAll(".vacationOption").forEach(el=>{
- if(el.innerText==saved) el.classList.add("selected");
- });
- }
+window.onload = ()=>{
+let saved = localStorage.getItem("vacationChoice");
+if(saved){
+document.querySelectorAll(".vacationCard").forEach(c=>{
+if(c.innerText==saved){
+c.classList.add("selected");
 }
+});
+}
+}
+
 </script>
 
 </body>
