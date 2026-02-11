@@ -2,131 +2,202 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Komal 🍄 - Will you be my Bestest Friend Forever?</title>
+<title>For Komal ❤️</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial, sans-serif;
-    background: linear-gradient(180deg, #0b0f1a, #1a1f35);
-    overflow-x: hidden;
-    color: white;
-    text-align: center;
+
+body{
+margin:0;
+font-family:-apple-system, sans-serif;
+background: radial-gradient(circle at top,#1a1a2e,#000);
+color:white;
+overflow-x:hidden;
 }
 
-/* Romantic realistic hearts */
-.heart {
-    position: fixed;
-    width: 18px;
-    height: 18px;
-    background: radial-gradient(circle at 30% 30%, #ff9bb3, #ff2e63);
-    transform: rotate(45deg);
-    animation: floatUp linear forwards;
-    box-shadow: 0 0 10px rgba(255, 80, 120, 0.8);
+.card{
+width:380px;
+max-width:90%;
+margin:8vh auto;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(20px);
+padding:30px;
+border-radius:30px;
+text-align:center;
 }
 
-.heart::before,
-.heart::after {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: inherit;
-    border-radius: 50%;
+.btn{
+padding:15px 28px;
+margin:10px;
+border-radius:18px;
+border:none;
+font-size:18px;
+cursor:pointer;
 }
 
-.heart::before { top: -9px; left: 0; }
-.heart::after { left: -9px; top: 0; }
+.yes{ background:#ff4d6d; color:white; }
+.no{ background:rgba(255,255,255,0.15); color:white; }
 
-@keyframes floatUp {
-    0% {
-        transform: translateY(0) rotate(45deg) scale(0.9);
-        opacity: 0;
-    }
-    20% { opacity: 1; }
-    100% {
-        transform: translateY(-120vh) rotate(45deg) scale(1.2);
-        opacity: 0;
-    }
+.panel{
+position:fixed;
+top:50%;
+transform:translateY(-50%);
+width:300px;
+background:#111;
+padding:25px;
+border-radius:25px;
+display:none;
+z-index:10;
 }
 
-.container {
-    padding-top: 80px;
+.left{ left:20px; }
+.right{ right:20px; }
+
+.musicPlayer{
+position:fixed;
+bottom:20px;
+right:20px;
+background:rgba(0,0,0,0.7);
+backdrop-filter:blur(10px);
+padding:12px 16px;
+border-radius:20px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:50;
 }
 
-h1 {
-    font-weight: 600;
-    letter-spacing: 0.5px;
+.musicPlayer img{
+width:45px;
+height:45px;
+border-radius:8px;
 }
 
-button {
-    margin: 15px;
-    padding: 14px 28px;
-    border-radius: 18px;
-    border: none;
-    font-size: 16px;
-    background: rgba(255,255,255,0.12);
-    color: white;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+.musicPlayer button{
+background:#ff4d6d;
+border:none;
+color:white;
+padding:8px 14px;
+border-radius:12px;
+cursor:pointer;
 }
 
-button:active {
-    transform: scale(0.95);
+@keyframes fallPetal{
+0%{ transform:translateY(-20px) rotate(0deg); opacity:1;}
+100%{ transform:translateY(110vh) rotate(360deg); opacity:0;}
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- YouTube Music Autoplay -->
-<iframe id="musicFrame"
-width="0"
-height="0"
-src="https://www.youtube.com/embed/9T-Zbxg9X_4?autoplay=1&loop=1&playlist=9T-Zbxg9X_4"
-allow="autoplay">
-</iframe>
+<!-- YOUTUBE PLAYER -->
+<div id="ytPlayer" style="position:fixed; left:-9999px; top:-9999px;"></div>
 
-<div class="container">
-<h1>Komal 🍄<br>Will you be my Bestest Friend Forever?</h1>
-
-<button onclick="yesClicked()">YES 💖</button>
-<button onclick="noClicked()">NO 🙈</button>
-
-<div id="response" style="margin-top:40px;font-size:20px;"></div>
+<!-- MUSIC PLAYER UI -->
+<div class="musicPlayer">
+<img src="https://img.youtube.com/vi/9T-Zbxg9X_4/hqdefault.jpg">
+<div>
+<div style="font-size:13px;">Our Song ❤️</div>
+<button onclick="toggleMusic()" id="musicBtn">Play</button>
+</div>
 </div>
 
+<!-- MAIN PAGE -->
+<div class="card" id="mainCard">
+
+<h2>Komal 🍄 Will you be my Bestest Friend Forever?</h2>
+
+<button class="btn yes" onclick="yesPress()">YES</button>
+<button class="btn no" onclick="noPress()">NO</button>
+
+<p id="noMsg"></p>
+
+</div>
+
+<!-- YES PAGE -->
+<div class="card" id="yesCard" style="display:none">
+
+<h2>YAY ❤️</h2>
+<h3>You have made me the happiest</h3>
+
+<div style="display:flex;gap:20px;justify-content:center;">
+<img src="https://www.gif-vif.com/trending/celebrate-yay.gif" width="140">
+<img src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif" width="140">
+</div>
+
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
-/* Create floating realistic hearts */
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-    document.body.appendChild(heart);
 
-    setTimeout(() => heart.remove(), 8000);
+/* YOUTUBE PLAYER API */
+let player;
+let musicPlaying=false;
+
+function onYouTubeIframeAPIReady(){
+player = new YT.Player('ytPlayer', {
+height: '1',
+width: '1',
+videoId: '9T-Zbxg9X_4',
+playerVars: {
+autoplay: 0,
+loop: 1,
+playlist: '9T-Zbxg9X_4'
+}
+});
 }
 
-setInterval(createHeart, 300);
+function toggleMusic(){
 
-/* Button logic */
-function yesClicked() {
-    document.getElementById("response").innerHTML = "YAY 💗 You made me the happiest!";
-    navigator.vibrate && navigator.vibrate(40);
+if(!musicPlaying){
+player.playVideo();
+document.getElementById("musicBtn").innerText="Pause";
+musicPlaying=true;
+}else{
+player.pauseVideo();
+document.getElementById("musicBtn").innerText="Play";
+musicPlaying=false;
 }
 
-function noClicked() {
-    document.getElementById("response").innerHTML = "I will keep trying 😌💞";
-    navigator.vibrate && navigator.vibrate(20);
 }
 
-/* Try forcing autoplay again on first touch (iOS fix) */
-document.body.addEventListener("touchstart", () => {
-    let frame = document.getElementById("musicFrame");
-    frame.src = frame.src;
-}, { once: true });
+/* PETALS */
+function startPetals(){
+setInterval(()=>{
+let petal=document.createElement("div");
+petal.innerHTML="🌹";
+petal.style.position="fixed";
+petal.style.left=Math.random()*100+"vw";
+petal.style.top="-30px";
+petal.style.fontSize="22px";
+petal.style.animation="fallPetal 8s linear";
+document.body.appendChild(petal);
+setTimeout(()=>petal.remove(),8000);
+},500);
+}
+
+/* NO LOOP */
+let noIndex=0;
+let noTexts=[
+"Invalid choice ❌ Please try again Bubs. Don’t blush.",
+"Are you sure? Please try again Bubs. Keep blushing.",
+"Wait!!!!! Are you sure? Please try again Bubs. More blushing.",
+"Are you sure SUREE? Please try again Bubs. NOW PRESS YESSSSS na"
+];
+
+function noPress(){
+document.getElementById("noMsg").innerText=noTexts[noIndex%noTexts.length];
+noIndex++;
+}
+
+/* YES */
+function yesPress(){
+document.getElementById("mainCard").style.display="none";
+document.getElementById("yesCard").style.display="block";
+startPetals();
+}
 
 </script>
 
