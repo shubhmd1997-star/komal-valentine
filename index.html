@@ -126,6 +126,31 @@ cursor:pointer;
 <img src="https://www.gif-vif.com/trending/anime-love-noragami-couple-eo3q293pwjh01tq8.gif" width="140">
 </div>
 
+<br>
+
+<!-- RESTORED BUTTONS -->
+<button class="btn yes" onclick="showSurprise()">🎁 Surprise</button>
+<button class="btn yes" onclick="showMessage()">💌 Personalized Message</button>
+
+</div>
+
+<!-- SURPRISE PANEL -->
+<div class="panel left" id="surprisePanel">
+<h3>Surprise 🎁</h3>
+<p>You mean the world to me. Every day with you feels unreal ❤️</p>
+<button class="btn no" onclick="closePanels()">Close</button>
+</div>
+
+<!-- MESSAGE PANEL -->
+<div class="panel right" id="messagePanel">
+<h3>Message 💌</h3>
+<p>
+Komal,<br><br>
+You make life lighter, happier and more meaningful.<br>
+I’m lucky to have you in my life.<br><br>
+Always yours ❤️
+</p>
+<button class="btn no" onclick="closePanels()">Close</button>
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -134,6 +159,7 @@ cursor:pointer;
 
 /* YOUTUBE PLAYER API */
 let player;
+let playerReady=false;
 let musicPlaying=false;
 
 function onYouTubeIframeAPIReady(){
@@ -141,6 +167,11 @@ player = new YT.Player('ytPlayer', {
 height: '1',
 width: '1',
 videoId: '9T-Zbxg9X_4',
+events:{
+'onReady':()=>{
+playerReady=true;
+}
+},
 playerVars: {
 autoplay: 0,
 loop: 1,
@@ -150,6 +181,8 @@ playlist: '9T-Zbxg9X_4'
 }
 
 function toggleMusic(){
+
+if(!playerReady) return;
 
 if(!musicPlaying){
 player.playVideo();
@@ -197,6 +230,20 @@ function yesPress(){
 document.getElementById("mainCard").style.display="none";
 document.getElementById("yesCard").style.display="block";
 startPetals();
+}
+
+/* PANELS */
+function showSurprise(){
+document.getElementById("surprisePanel").style.display="block";
+}
+
+function showMessage(){
+document.getElementById("messagePanel").style.display="block";
+}
+
+function closePanels(){
+document.getElementById("surprisePanel").style.display="none";
+document.getElementById("messagePanel").style.display="none";
 }
 
 </script>
