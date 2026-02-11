@@ -91,10 +91,8 @@ cursor:pointer;
 
 <body>
 
-<!-- YOUTUBE PLAYER -->
 <div id="ytPlayer" style="position:fixed; left:-9999px; top:-9999px;"></div>
 
-<!-- MUSIC PLAYER UI -->
 <div class="musicPlayer">
 <img src="https://img.youtube.com/vi/9T-Zbxg9X_4/hqdefault.jpg">
 <div>
@@ -103,7 +101,6 @@ cursor:pointer;
 </div>
 </div>
 
-<!-- MAIN PAGE -->
 <div class="card" id="mainCard">
 
 <h2>Komal 🍄 Will you be my Bestest Friend Forever?</h2>
@@ -115,7 +112,6 @@ cursor:pointer;
 
 </div>
 
-<!-- YES PAGE -->
 <div class="card" id="yesCard" style="display:none">
 
 <h2>YAY ❤️</h2>
@@ -128,27 +124,52 @@ cursor:pointer;
 
 <br>
 
-<!-- RESTORED BUTTONS -->
-<button class="btn yes" onclick="showSurprise()">🎁 Surprise</button>
+<!-- TWO SURPRISE BUTTONS -->
+<button class="btn yes" onclick="showDate()">💌 Date Night</button>
+<button class="btn yes" onclick="showSpa()">💆‍♀️ Spa Gift</button>
 <button class="btn yes" onclick="showMessage()">💌 Personalized Message</button>
 
 </div>
 
-<!-- SURPRISE PANEL -->
-<div class="panel left" id="surprisePanel">
-<h3>Surprise 🎁</h3>
-<p>You mean the world to me. Every day with you feels unreal ❤️</p>
+<!-- DATE PANEL LEFT -->
+<div class="panel left" id="datePanel">
+<h3>Date Night 💌</h3>
+<p>
+TBH March-2026<br>
+Time: TBD<br>
+Where: (It's a surprise)<br>
+With: YO MANS (future ...)<br>
+Attire: feeling like a dress would be good, maybe formal but not too formal,<br>
+I'll be wearing a button up maybe polo :)
+</p>
 <button class="btn no" onclick="closePanels()">Close</button>
 </div>
 
-<!-- MESSAGE PANEL -->
+<!-- SPA PANEL RIGHT -->
+<div class="panel right" id="spaPanel">
+<h3>Spa Gift 💆‍♀️</h3>
+<p>
+Reserved for certificate<br>
+(For Details please contact 647-633-6463)
+</p>
+<button class="btn no" onclick="closePanels()">Close</button>
+</div>
+
+<!-- MESSAGE PANEL RIGHT -->
 <div class="panel right" id="messagePanel">
 <h3>Message 💌</h3>
 <p>
-Komal,<br><br>
-You make life lighter, happier and more meaningful.<br>
-I’m lucky to have you in my life.<br><br>
-Always yours ❤️
+I know you like to hold me accountable so here are a few things I have said and would like for you to revisit:<br><br>
+
+YOU WILL BE GIVEN IKEA LEVEL MANUAL INSTRUCTIONS IF THAT IS POSSIBLE<br>
+I WANT TO SEE THAT DIMPLES HURT<br>
+YOU DESERVE EVERYTHING AND MORE<br>
+I KNOW YOU SENSE ME WHAT I WAS THINKING AND GOT ME TO THIS<br>
+BUT MY BUBS MY GUJJU, NOT YOUR TIME TO WORRY- MY TIME TO SHOW YOU—YOU FROM MY LENS<br>
+I DONT WANT TO SAY IT AND TAKE IT AWAY FROM YOU<br>
+JUST SIT BACK AND ENJOY--<br><br>
+
+I am Here KMJ(I told you so that LET ME DO ME AND DO YOU)...
 </p>
 <button class="btn no" onclick="closePanels()">Close</button>
 </div>
@@ -157,7 +178,6 @@ Always yours ❤️
 
 <script>
 
-/* YOUTUBE PLAYER API */
 let player;
 let playerReady=false;
 let musicPlaying=false;
@@ -167,21 +187,12 @@ player = new YT.Player('ytPlayer', {
 height: '1',
 width: '1',
 videoId: '9T-Zbxg9X_4',
-events:{
-'onReady':()=>{
-playerReady=true;
-}
-},
-playerVars: {
-autoplay: 0,
-loop: 1,
-playlist: '9T-Zbxg9X_4'
-}
+events:{ 'onReady':()=>{ playerReady=true; } },
+playerVars:{ autoplay:0, loop:1, playlist:'9T-Zbxg9X_4' }
 });
 }
 
 function toggleMusic(){
-
 if(!playerReady) return;
 
 if(!musicPlaying){
@@ -193,10 +204,8 @@ player.pauseVideo();
 document.getElementById("musicBtn").innerText="Play";
 musicPlaying=false;
 }
-
 }
 
-/* PETALS */
 function startPetals(){
 setInterval(()=>{
 let petal=document.createElement("div");
@@ -211,7 +220,6 @@ setTimeout(()=>petal.remove(),8000);
 },500);
 }
 
-/* NO LOOP */
 let noIndex=0;
 let noTexts=[
 "Invalid choice ❌ Please try again Bubs. Don’t blush.",
@@ -225,7 +233,6 @@ document.getElementById("noMsg").innerText=noTexts[noIndex%noTexts.length];
 noIndex++;
 }
 
-/* YES */
 function yesPress(){
 document.getElementById("mainCard").style.display="none";
 document.getElementById("yesCard").style.display="block";
@@ -233,16 +240,24 @@ startPetals();
 }
 
 /* PANELS */
-function showSurprise(){
-document.getElementById("surprisePanel").style.display="block";
+function showDate(){
+closePanels();
+document.getElementById("datePanel").style.display="block";
+}
+
+function showSpa(){
+closePanels();
+document.getElementById("spaPanel").style.display="block";
 }
 
 function showMessage(){
+closePanels();
 document.getElementById("messagePanel").style.display="block";
 }
 
 function closePanels(){
-document.getElementById("surprisePanel").style.display="none";
+document.getElementById("datePanel").style.display="none";
+document.getElementById("spaPanel").style.display="none";
 document.getElementById("messagePanel").style.display="none";
 }
 
